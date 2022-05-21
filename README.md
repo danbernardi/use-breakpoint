@@ -1,17 +1,19 @@
 # useBreakpoint
 useBreakpoint is a custom react hook that allows the use of css media queries in a react environment.
 
-## Setup
-The best way to use these breakpoint helpers is by utilizing React context to set up a custom context provider.
+### Setup
 
-### Install the package
+*npm:*
 ```
 npm install @dbernardi/useBreakpoint
 ```
 
+*yarn:*
 ```
 yarn add @dbernardi/useBreakpoint
 ```
+
+The best way to use these breakpoint helpers is by utilizing React context to set up a custom context provider.
 
 1. Add the following Provider to the top level of your app -- preferrably wrapping the App component. Breakpoint state will only be available to components that are children of this top level component.
 ``` jsx
