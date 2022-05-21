@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+.App.with-fat-border {
+  border: 50px solid green;
+}
+
+.App.with-skinny-border {
+  border: 10px solid green;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

@@ -1,70 +1,155 @@
-# Getting Started with Create React App
+# useBreakpointContext and other responsive helpers
+We have a series of js helper functions, custom hooks, and context providers that allow us to mirror the css media query functionality in our React components.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Setup
+The best way to use these breakpoint helpers is by utilizing React context to set up a custom context provider.
 
-## Available Scripts
+1. Add the following Provider to the top level of your app -- preferrably wrapping the App component. Breakpoint state will only be available to components that are children of this top level component.
+``` jsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BreakpointProvider } from '@springforcreatores/propel-ui';
+import App from './App.js';
 
-In the project directory, you can run:
+ReactDOM.render(
+  <React.StrictMode>
+    <BreakpointProvider>
+      <App />
+    </BreakpointProvider>
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+```
 
-### `npm start`
+2. Now, you can simply use the `useBreakpointContext` hook anywhere in your app to consume the breakpoint state:
+``` jsx
+import { useBreakpointContext } from '@springforcreatores/propel-ui';
+import SubComponent from './SubComponent';
+import './App.scss';
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+function App() {
+  const {
+    // See below for information on how each of these variables can be used
+    setClass,
+    bpIsGT,
+    bpIsLT,
+    breakpoint,
+    breakpoints
+  } = useBreakpointContext();
 
-### `npm test`
+  return (
+    <div className={ `App ${setClass({ default: '', mobileLg: 'border' })}` }>
+      { bpIsGT('mobileLg') && <SubComponent /> }
+    </div>
+  );
+}
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+export default App;
 
-### `npm run build`
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+You should now be able to make use of the breakpoint state in your components. It should update its value as you resize the width of your browser. Just like our scss handlers, the breakpoint system assumes a desktop first responsive flow. This means that breakpoints are active in reverse order from largest to smallest, with smaller breakpoints overriding larger ones. If your viewport is greater than the largest breakpoint, the `default` breakpoint is active.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+*Note: the `useBreakpoint` hook is importable from `@springforcreators/propel-ui` in case you only need to use this functionality in a single component, and wish to avoid using react context. However, it is not recommended to use this hook if you want to use the breakpoint helpers in more than one component (especially on the same page), because it will create breakpoint event listeners for every `useBreakpoint` instance. To avoid redundant events, use `useBreakpointContext`.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Helper functions and integration
 
-### `npm run eject`
+In order to allow your components to make use of the breakpoint state, we've provided a series of helper functions, these are automatically returned when using `useBreakpointContext` but can be imported directly from `@springforcreatores/propel-ui`.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Adding the helper functions to your component
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The helper functions can be destructured from the object returned from `useBreakpointContext`. This injects the following breakpoint helpers into your component:  
+breakpoints  
+bpIsGT  
+bpIsLT  
+setClass  
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The use of these helpers will be explained below.
+``` jsx
+import { useBreakpointContext } from '@springforcreators/propel-ui';
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+const Component = (props) => {
+  const { breakpoints, bpIsGT, bpIsLT, setClass } = useBreakpointContext();
 
-## Learn More
+  return (
+    <div>
+      Test component
+    </div>
+  );
+};
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+export default Component;
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### breakpoints
+`breakpoints` is an object that lists all the available breakpoints. For each breakpoint, the key equals the breakpoint name and the value equals the breakpoint width in pixels.
 
-### Code Splitting
+``` js
+const breakpoints = {
+  desktopLg: 1400,
+  desktopMd: 1300,
+  desktopSm: 1200,
+  tabletLg: 1040,
+  tabletMd: 991,
+  tabletSm: 840,
+  mobileLg: 767,
+  mobileMd: 540,
+  mobileSm: 400,
+  mobileXsm: 350
+};
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+#### bpIsGT - breakpointIsGreaterThan
+This function returns a boolean indicating whether the currently active breakpoint is larger than the passed breakpoint param. The breakpoint param is a `string` that matches one of the keys in `breakpoints`.
 
-### Analyzing the Bundle Size
+```jsx
+bpIsGt('mobileLg')
+  ? <p>I will only appear on screens larger than 767px</p>
+  : <p>I will only appear on screens smaller than 767px</p>
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+#### bpIsLT - breakpointIsLessThan
+This function returns a boolean indicating whether the currently active breakpoint is smaller than the passed breakpoint param. The breakpoint param is a `string` that matches one of the keys in `breakpoints`.
 
-### Making a Progressive Web App
+```jsx
+bpIsLt('mobileLg')
+  ? <p>I will only appear on screens smaller than 767px</p>
+  : <p>I will only appear on screens larger than 767px</p>
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+#### setClass
+This function is used to return a string (often but not limited to a className) that matches / is adjacent to the currently active breakpoint.
 
-### Advanced Configuration
+It accepts an object as a param with key value pairs describing which strings should be returned for which matched breakpoints. For each breakpoint, the value of the match will be returned. The breakpoints are read in reverse order, with larger breakpoints active first. When a breakpoint is active, it will remain active until the next breakpoint key finds a match. It is not necessary to provide values for all of the available breakpoints, only the breakpoints at which point the string should change.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+This is most commonly used to change the className of an element based on the active breakpoint:
+``` jsx
+<div className={ setClass({
+    default: 'larger-than-mobile-lg',
+    mobileLg: 'mobileLg-and-below-but-greater-than-mobileSm',
+    mobileSm: 'mobileSm-and-below'
+  }) }>
+  Some content
+</div>
+```
 
-### Deployment
+However, it can also be used anywhere a string can be used. Another example is to use setClass in association with inline styles:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+``` jsx
+import { useBreakpointContext } from '@springforcreators/propel-ui';
 
-### `npm run build` fails to minify
+const Component = (props) => {
+  const { setClass } = useBreakpointContext();
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  const dynamicStyles = {
+    width: setClass({ default: '300px', mobileLg: '500px' })
+  };
+
+  return (
+    <div style={ dynamicStyles }>
+      Some content
+    </div>
+  )
+}
+```

@@ -1,7 +1,9 @@
 {
-  "name": "use-breakpoint",
+  "name": "@dbernardi/use-breakpoint",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
@@ -15,7 +17,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "rollup": "cross-env BABEL_ENV=production rollup -c",
+    "clean": "rm -rf dist",
+    "prepare": "npm-run-all clean rollup"
   },
   "eslintConfig": {
     "extends": [
@@ -34,5 +39,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "cross-env": "^7.0.3",
+    "npm-run-all": "^4.1.5",
+    "rollup": "^2.74.1"
   }
 }
