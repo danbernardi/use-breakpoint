@@ -19,7 +19,7 @@ The best way to use these breakpoint helpers is by utilizing React context to se
 ``` jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BreakpointProvider } from '@dbernardi/useBreakpoint/useBreakpoint';
+import { BreakpointProvider } from '@dbernardi/useBreakpoint';
 import App from './App.js';
 
 ReactDOM.render(
@@ -34,7 +34,7 @@ ReactDOM.render(
 
 2. Now, you can simply use the `useBreakpointContext` hook anywhere in your app to consume the breakpoint state:
 ``` jsx
-import { useBreakpointContext } from '@dbernardi/useBreakpoint/useBreakpoint';
+import { useBreakpointContext } from '@dbernardi/useBreakpoint';
 import SubComponent from './SubComponent';
 import './App.scss';
 
