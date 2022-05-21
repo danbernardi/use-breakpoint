@@ -23,7 +23,7 @@ ReactDOM.render(
 
 2. Now, you can simply use the `useBreakpointContext` hook anywhere in your app to consume the breakpoint state:
 ``` jsx
-import { useBreakpointContext } from '@springforcreatores/propel-ui';
+import { useBreakpointContext } from '@danbernardi/useBreakpoint';
 import SubComponent from './SubComponent';
 import './App.scss';
 
@@ -55,7 +55,7 @@ You should now be able to make use of the breakpoint state in your components. I
 
 ## Helper functions and integration
 
-In order to allow your components to make use of the breakpoint state, we've provided a series of helper functions, these are automatically returned when using `useBreakpointContext` but can be imported directly from `@springforcreatores/propel-ui`.
+In order to allow your components to make use of the breakpoint state, we've provided a series of helper functions, these are automatically returned when using `useBreakpointContext` but can be imported directly from `@danbernardi/useBreakpoint`.
 
 ### Adding the helper functions to your component
 
