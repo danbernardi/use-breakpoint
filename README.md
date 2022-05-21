@@ -4,11 +4,20 @@ useBreakpoint is a custom react hook that allows the use of css media queries in
 ## Setup
 The best way to use these breakpoint helpers is by utilizing React context to set up a custom context provider.
 
+### Install the package
+```
+npm install @dbernardi/useBreakpoint
+```
+
+```
+yarn add @dbernardi/useBreakpoint
+```
+
 1. Add the following Provider to the top level of your app -- preferrably wrapping the App component. Breakpoint state will only be available to components that are children of this top level component.
 ``` jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BreakpointProvider } from '@danbernardi/useBreakpoint';
+import { BreakpointProvider } from '@dbernardi/useBreakpoint/useBreakpoint';
 import App from './App.js';
 
 ReactDOM.render(
@@ -23,7 +32,7 @@ ReactDOM.render(
 
 2. Now, you can simply use the `useBreakpointContext` hook anywhere in your app to consume the breakpoint state:
 ``` jsx
-import { useBreakpointContext } from '@danbernardi/useBreakpoint';
+import { useBreakpointContext } from '@dbernardi/useBreakpoint/useBreakpoint';
 import SubComponent from './SubComponent';
 import './App.scss';
 
@@ -51,11 +60,11 @@ export default App;
 
 You should now be able to make use of the breakpoint state in your components. It should update its value as you resize the width of your browser. Just like our scss handlers, the breakpoint system assumes a desktop first responsive flow. This means that breakpoints are active in reverse order from largest to smallest, with smaller breakpoints overriding larger ones. If your viewport is greater than the largest breakpoint, the `default` breakpoint is active.
 
-*Note: the `useBreakpoint` hook is importable from `@danbernardi/useBreakpoint` in case you only need to use this functionality in a single component, and wish to avoid using react context. However, it is not recommended to use this hook if you want to use the breakpoint helpers in more than one component (especially on the same page), because it will create breakpoint event listeners for every `useBreakpoint` instance. To avoid redundant events, use `useBreakpointContext`.
+*Note: the `useBreakpoint` hook is importable from `@dbernardi/useBreakpoint/useBreakpoint` in case you only need to use this functionality in a single component, and wish to avoid using react context. However, it is not recommended to use this hook if you want to use the breakpoint helpers in more than one component (especially on the same page), because it will create breakpoint event listeners for every `useBreakpoint` instance. To avoid redundant events, use `useBreakpointContext`.
 
 ## Helper functions and integration
 
-In order to allow your components to make use of the breakpoint state, we've provided a series of helper functions, these are automatically returned when using `useBreakpointContext` but can be imported directly from `@danbernardi/useBreakpoint`.
+In order to allow your components to make use of the breakpoint state, we've provided a series of helper functions, these are automatically returned when using `useBreakpointContext` but can be imported directly from `@dbernardi/useBreakpoint/useBreakpoint`.
 
 ### Adding the helper functions to your component
 
@@ -67,7 +76,7 @@ setClass
 
 The use of these helpers will be explained below.
 ``` jsx
-import { useBreakpointContext } from '@danbernardi/useBreakpoint';
+import { useBreakpointContext } from '@dbernardi/useBreakpoint/useBreakpoint';
 
 const Component = (props) => {
   const { breakpoints, bpIsGT, bpIsLT, setClass } = useBreakpointContext();
@@ -137,7 +146,7 @@ This is most commonly used to change the className of an element based on the ac
 However, it can also be used anywhere a string can be used. Another example is to use setClass in association with inline styles:
 
 ``` jsx
-import { useBreakpointContext } from '@danbernardi/useBreakpoint';
+import { useBreakpointContext } from '@dbernardi/useBreakpoint/useBreakpoint';
 
 const Component = (props) => {
   const { setClass } = useBreakpointContext();

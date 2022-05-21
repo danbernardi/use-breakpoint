@@ -4,15 +4,7 @@
   "private": false,
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.2.0",
-    "@testing-library/user-event": "^13.5.0",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
-  },
+  "dependencies": {},
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -40,11 +32,31 @@
       "last 1 safari version"
     ]
   },
+  "peerDependencies": {
+    "react": "^18.1.0"
+  },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.2.0",
+    "@testing-library/user-event": "^13.5.0",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "cross-env": "^7.0.3",
     "npm-run-all": "^4.1.5",
-    "rollup": "^2.74.1"
-  }
+    "rollup": "^2.74.1",
+    "react-dom": "^18.1.0",
+    "react-scripts": "5.0.1",
+    "react": "^18.1.0"
+  },
+  "description": "useBreakpoint is a custom react hook that allows the use of css media queries in a react environment.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danbernardi/use-breakpoint.git"
+  },
+  "author": "Daniel Bernardi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/danbernardi/use-breakpoint/issues"
+  },
+  "homepage": "https://github.com/danbernardi/use-breakpoint#readme"
 }
